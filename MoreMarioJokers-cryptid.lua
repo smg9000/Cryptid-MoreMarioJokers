@@ -61,48 +61,6 @@ SMODS.Joker {
 	},
 }
 SMODS.Joker {
-	name = "mmj-Waluigi",
-	key = "waluigi",
-	pos = { x = 0, y = 1 },
-	soul_pos = { x = 1, y = 1 },
-	config = { extra = { Xmult = 2.5 } },
-	loc_vars = function(self, info_queue, center)
-		return { vars = { center.ability.extra.Xmult } }
-	end,
-	rarity = 4,
-	cost = 20,
-	order = 87,
-	blueprint_compat = true,
-	calculate = function(self, card, context)
-		if context.other_joker and context.other_joker.ability.set == "Joker" then
-			if not Talisman.config_file.disable_anims then
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						context.other_joker:juice_up(0.5, 0.5)
-						return true
-					end,
-				}))
-			end
-			return {
-				message = localize({ type = "variable", key = "a_xmult", vars = { card.ability.extra.Xmult } }),
-				Xmult_mod = card.ability.extra.Xmult,
-			}
-		end
-	end,
-	atlas = "marioatlas",
-	cry_credits = {
-		idea = {
-			"HexaCryonic"
-		},
-		art = {
-			"HexaCryonic"
-		},
-		code = {
-			"Math"
-		}
-	},
-}
-SMODS.Joker {
 	name = "mmj-mario",
 	key = "mario",
 	config = { extra = { retriggers = 2 } },
@@ -126,55 +84,6 @@ SMODS.Joker {
 			}
 		end
 	end,
-	cry_credits = {
-		idea = {
-			"Auto Watto"
-		},
-		art = {
-			"Linus Goof Balls"
-		},
-		code = {
-			"Auto Watto"
-		}
-	},
-}
-SMODS.Joker {
-	name = "mmj-wario",
-	key = "wario",
-	order = 88,
-	pos = { x = 0, y = 3 },
-	soul_pos = { x = 1, y = 3 },
-	config = { extra = { money = 3 } },
-	loc_vars = function(self, info_queue, center)
-		return { vars = { center.ability.extra.money } }
-	end,
-	calculate = function(self, card, context)
-		if context.post_trigger then
-			ease_dollars(card.ability.extra.money)
-			if not Talisman.config_file.disable_anims then
-				G.E_MANAGER:add_event(Event({
-					func = function()
-						(context.blueprint_card or card):juice_up(0.5, 0.5)
-						return true
-					end,
-				}))
-			end
-			card_eval_status_text(
-				context.other_context.blueprint_card or context.other_joker,
-				"extra",
-				nil,
-				nil,
-				nil,
-				{ message = localize("$") .. card.ability.extra.money, colour = G.C.MONEY }
-			)
-			return nil, true
-		end
-	end,
-
-	rarity = 4,
-	cost = 20,
-	blueprint_compat = true,
-	atlas = "marioatlas",
 	cry_credits = {
 		idea = {
 			"Auto Watto"
