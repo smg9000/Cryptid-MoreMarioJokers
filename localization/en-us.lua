@@ -18,20 +18,6 @@ return {
                     "{C:attention}#1#{} additional time(s)",
                 },
             },
-			j_mmj_waluigi = {
-                name = "Waluigi",
-                text = {
-                    "All Jokers give",
-                    "{X:mult,C:white} X#1# {} Mult",
-                },
-            },
-            j_mmj_wario = {
-                name = "Wario",
-                text = {
-                    "All Jokers give",
-                    "{C:money}$#1#{} when triggered",
-                },
-            },
         }    
     }
 }
