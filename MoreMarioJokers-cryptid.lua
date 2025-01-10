@@ -6,7 +6,7 @@
 --- MOD_DESCRIPTION: a mod that adds more Mario jokers to cryptid
 --- BADGE_COLOUR: 708b91
 --- DEPENDENCIES: [Talisman, Cryptid]
---- VERSION: 0.0.0
+--- VERSION: 0.1.0
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
