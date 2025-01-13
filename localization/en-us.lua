@@ -17,7 +17,7 @@ return {
                 text = {
                     "All Jokers add",
                     "{C:green} X#1# {} to base {C:attention}listed{}",
-					"{C:green}probabilitys{}",
+					"{C:green}probabilities{}",
                 },
             },
             j_mmj_nluigi = {
@@ -55,7 +55,7 @@ return {
 			dictionary = {
 				mmj_daisy_give = "Take This Consumable",
 				mmj_config_features = "Features",
-				mmj_config_nostolgic_luigi = "Nostolgic Luigi",
+				mmj_config_nostalgic_luigi = "Nostalgic Luigi",
 				mmj_config_more_mario_jokers = "More Mario Jokers",
 			}
 		},
