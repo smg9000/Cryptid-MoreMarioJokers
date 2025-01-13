@@ -15,15 +15,15 @@ local mod_path = SMODS.current_mod.path
 mmj_config = SMODS.current_mod.config
 local folder = string.match(mod_path, "[Mm]ods.*")
 
-if mmj_config["Nostolgic_luigi"] == nil then
-  mmj_config["Nostolgic_luigi"] = true
+if mmj_config["Nostalgic_luigi"] == nil then
+  mmj_config["Nostalgic_luigi"] = true
 end
 if mmj_config["More_mario_jokers"] == nil then
   mmj_config["More_mario_jokers"] = true
 end
 
 
-if mmj_config["Nostolgic_luigi"] then
+if mmj_config["Nostalgic_luigi"] then
 	SMODS.Joker {
 		name = "mmj-nluigi",
 		key = "nluigi",
@@ -219,6 +219,7 @@ if mmj_config["More_mario_jokers"] then
 				for i = 1, #G.jokers.cards do
 					if pseudorandom("mmj-Daisy") < G.GAME.probabilities.normal/card.ability.extra.odds then
 						G.E_MANAGER:add_event(Event({
+							delay = 0.4,
 							func = function()
                             local _card = create_card('Consumeables',G.consumeables, nil, nil, nil, nil, nil, 'daisy')
 							_card:add_to_deck()
@@ -347,7 +348,7 @@ if mmj_config["More_mario_jokers"] then
 					update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "+1" })
 					delay(1.3)
 					for k, v in pairs(G.GAME.hands) do
-						level_up_hand(used_consumable, k, true)
+						level_up_hand(G.jokers.cards[i], k, true)
 					end
 					update_hand_text(
 						{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
@@ -447,7 +448,7 @@ local moremariojokerTabs = function() return {
 			mmj_nodes = {}
 			settings = { n = G.UIT.C, config = { align = "tm", padding = 0.05 }, nodes = {} }
       settings.nodes[#settings.nodes + 1] =
-        create_toggle({ label = "Nostolgic Luigi", ref_table = mmj_config, ref_value = "Nostolgic_luigi" })
+        create_toggle({ label = "Nostalgic Luigi", ref_table = mmj_config, ref_value = "Nostalgic_luigi" })
       settings.nodes[#settings.nodes + 1] =
         create_toggle({ label = "More Mario Jokers", ref_table = mmj_config, ref_value = "More_mario_jokers" })
 			config = { n = G.UIT.R, config = { align = "tm", padding = 0 }, nodes = { settings } }
