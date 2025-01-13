@@ -30,6 +30,29 @@ return {
                     "{C:money}$#1#{} wenn ausgelöst",
                 },
             },
-        }    
+			j_mmj_peach = {
+                name = "Peach",
+                text = {
+                    "Alle Joker reduzieren die {C:attention}Blind{} größe",
+                    "um {C:attention}5%{} wenn die {C:attention}Blind{} startet.",
+					"{C:inactive}(Multiplikativ){}",
+                },
+            },
+			j_mmj_rosalina = {
+                name = "Rosalina",
+                text = {
+                    "Alle Joker haben eine Chance von {C:green}#1# zu #2#{}",
+					"am Ende der Runde alle {C:attention}hands{} aufzuwerten.",
+                },
+            },
+        },
+		misc = {
+			dictionary = {
+				mmj_daisy_give = "Nimm den Verbrauchsgegenstand",
+				mmj_config_features = "Features",
+				mmj_config_nostalgic_luigi = "Nostalgischer Luigi",
+				mmj_config_more_mario_jokers = "More Mario Jokers",
+			}
+        },
     }
 }
