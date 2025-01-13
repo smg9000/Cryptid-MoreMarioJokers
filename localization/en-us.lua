@@ -1,8 +1,24 @@
---I couldn't get Meme Packs to work without crashing
---yes somehow that was harder than RNJoker
+
 return {
     descriptions = {
         Joker = {
+			j_mmj_daisy = {
+                name = "Daisy",
+                text = {
+					"When hand is played",
+                    "{C:green} #1# in #2#{} chance for every Joker ",
+                    "to create a random {C:attention}Consumable{}",
+					"{C:inactive}Doesn't need room{}",
+                },
+            },
+			j_mmj_luigi = {
+                name = "Luigi",
+                text = {
+                    "All Jokers add",
+                    "{C:green} X#1# {} to base {C:attention}listed{}",
+					"{C:green}probabilities{}",
+                },
+            },
             j_mmj_nluigi = {
                 name = "Luigi",
                 text = {
@@ -18,20 +34,29 @@ return {
                     "{C:attention}#1#{} additional time(s)",
                 },
             },
-			j_mmj_waluigi = {
-                name = "Waluigi",
+			j_mmj_peach = {
+                name = "Peach",
                 text = {
-                    "All Jokers give",
-                    "{X:mult,C:white} X#1# {} Mult",
+                    "All Jokers reduce the score required of a {C:attention}Blind{} ",
+                    "by {C:attention}5%{} when entering a {C:attention}Blind{} ",
+					"{C:inactive}(multiplicitively){}",
                 },
             },
-            j_mmj_wario = {
-                name = "Wario",
+			j_mmj_rosalina = {
+                name = "Rosalina",
                 text = {
-                    "All Jokers give",
-                    "{C:money}$#1#{} when triggered",
+                    "All Jokers have a{C:green} #1# in #2#{} chance",
+					"to level up all {C:attention}hands{} at end of round",
                 },
             },
-        }    
+        },
+		misc = {
+			dictionary = {
+				mmj_daisy_give = "Take This Consumable",
+				mmj_config_features = "Features",
+				mmj_config_nostalgic_luigi = "Nostalgic Luigi",
+				mmj_config_more_mario_jokers = "More Mario Jokers",
+			}
+		},
     }
 }
