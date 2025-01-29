@@ -348,7 +348,7 @@ if mmj_config["More_mario_jokers"] then
 					update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "+1" })
 					delay(1.3)
 					for k, v in pairs(G.GAME.hands) do
-						level_up_hand(G.jokers.cards[i], k, true)
+						level_up_hand(G.jokers.cards[i], k, true, to_big(1))
 					end
 					update_hand_text(
 						{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
