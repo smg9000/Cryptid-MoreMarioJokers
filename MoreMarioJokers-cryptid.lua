@@ -442,7 +442,7 @@ SMODS.Atlas({
 
 local moremariojokerTabs = function() return {
 	{
-		label = "Features",
+		label = "Feature Config",
 		chosen = true,
 		tab_definition_function = function()
 			mmj_nodes = {}

@@ -1,5 +1,5 @@
 {
- 	["Nostolgic_luigi"] = true,
+ 	["Nostolgic_luigi"] = false,
  	["More_mario_jokers"] = true
 }
  
