@@ -61,15 +61,15 @@ return {
                 name = "King Boo",
                 text = {
                     "When Jokers are triggered{C:green} #1# in #2# {}chance",
-                    "to upgrade Edition",
-                    "{C:green} #1# in #3#{} chance to reset to Base",
+                    "to upgrade {C:attention}Edition{}",
+                    "{C:green} #1# in #3#{} chance to reset to {C:attention}Base{}",
                     "{C:inactive}(ex: Base -> Foil -> Holographic -> Polychrome etc.){}",
                 }
             },
             j_mmj_shyguy = { 
                 name = "Shy Guy",
                 text = {
-                    "Played Numbered Cards permanently gain {X:mult,C:white}X(n/#1#){} Mult, ",
+                    "{C:attention}Numbered Cards{} permanently gain {X:mult,C:white}X(n/#1#){} Mult when scored,",
                     "where {C:attention}n{} is equal to the amount of Jokers you own",
                     
                 }
