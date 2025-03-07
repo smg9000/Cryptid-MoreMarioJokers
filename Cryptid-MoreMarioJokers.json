@@ -1,0 +1,14 @@
+{
+	"id": "CryptidMoreMarioJokers",
+	"name": "Cryptid-MoreMarioJokers",
+	"display_name": "Cryptid-MoreMarioJokers",
+	"author": ["SMG9000, Denverplays2"],
+	"description": "a mod that adds more Mario jokers to cryptid",
+	"prefix": "mmj",
+	"main_file": "MoreMarioJokers-cryptid.lua",
+	"priority": 0,
+	"badge_colour": "708b91",
+	"badge_text_colour": "FFFFFF",
+	"version": "0.1.0",
+	"dependencies": ["Talisman"],
+}
