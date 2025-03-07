@@ -60,10 +60,10 @@ return {
             j_mmj_king_boo = { 
                 name = "King Boo",
                 text = {
-                    "When Jokers are triggerd{C:green} #1# in #2# {}chance",
+                    "When Jokers are triggered{C:green} #1# in #2# {}chance",
                     "to upgrade Edition",
                     "{C:green} #1# in #3#{} chance to reset to Base",
-                    "{C:inactive}(Ex.Base->Foil->Holographic->Polychrome Ect.){}",
+                    "{C:inactive}(ex: Base -> Foil -> Holographic -> Polychrome etc.){}",
                 }
             },
             j_mmj_shyguy = { 
