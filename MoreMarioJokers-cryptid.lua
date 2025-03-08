@@ -206,7 +206,7 @@ if mmj_config["More_mario_jokers"] or true then
 		calculate = function(self, card, context)
 			if context.before and not context.individual then 
 				for i = 1, #G.jokers.cards do
-					if pseudorandom("mmj-Daisy") < G.GAME.probabilities.normal/card.ability.extra.odds then
+					if G.jokers.cards[i] ~= nil and pseudorandom("mmj-Daisy") < G.GAME.probabilities.normal/card.ability.extra.odds then
 						G.E_MANAGER:add_event(Event({
 							delay = 0.4,
 							func = function()
