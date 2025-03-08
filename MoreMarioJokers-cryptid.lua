@@ -298,7 +298,7 @@ if mmj_config["More_mario_jokers"] or true then
 		calculate = function(self, card, context)
 			if context.end_of_round and not context.individual and not context.repetition then
 				for i = 1, #G.jokers.cards do
-				if pseudorandom("rosalina") < G.GAME.probabilities.normal / card.ability.extra.odds then --Code "borrowed" from black hole
+				if G.jokers.cards[i] ~= nil and pseudorandom("rosalina") < G.GAME.probabilities.normal / card.ability.extra.odds then --Code "borrowed" from black hole
 					update_hand_text(
 						{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
 						{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
@@ -343,7 +343,7 @@ if mmj_config["More_mario_jokers"] or true then
 						{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
 						{ mult = 0, chips = 0, handname = "", level = "" }
 					)
-				else
+				elseif G.jokers.cards[i] ~= nil then
 					G.E_MANAGER:add_event(Event({
 						trigger = "after",
 						delay = 0.4,
