@@ -297,99 +297,99 @@ if mmj_config["More_mario_jokers"] or true then
 		blueprint_compat = true,
 		calculate = function(self, card, context)
 			if context.end_of_round and not context.individual and not context.repetition then
-				for i = 1, #G.jokers.cards do
-				if pseudorandom("rosalina") < G.GAME.probabilities.normal / card.ability.extra.odds then --Code "borrowed" from black hole
-					update_hand_text(
-						{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
-						{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
-					)
-					G.E_MANAGER:add_event(Event({
-						trigger = "after",
-						delay = 0.2,
-						func = function()
-							play_sound("tarot1")
-							G.jokers.cards[i]:juice_up(0.8, 0.5)
-							G.TAROT_INTERRUPT_PULSE = true
-							return true
-						end,
-					}))
-					update_hand_text({ delay = 0 }, { mult = "+", StatusText = true })
-					G.E_MANAGER:add_event(Event({
-						trigger = "after",
-						delay = 0.9,
-						func = function()
-							play_sound("tarot1")
-							G.jokers.cards[i]:juice_up(0.8, 0.5)
-							return true
-						end,
-					}))
-					update_hand_text({ delay = 0 }, { chips = "+", StatusText = true })
-					G.E_MANAGER:add_event(Event({
-						trigger = "after",
-						delay = 0.9,
-						func = function()
-							play_sound("tarot1")
-							G.jokers.cards[i]:juice_up(0.8, 0.5)
-							G.TAROT_INTERRUPT_PULSE = nil
-							return true
-						end,
-					}))
-					update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "+1" })
-					delay(1.3)
-					for k, v in pairs(G.GAME.hands) do
-						level_up_hand(G.jokers.cards[i], k, true, to_big(1))
-					end
-					update_hand_text(
-						{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
-						{ mult = 0, chips = 0, handname = "", level = "" }
-					)
-				else
-					G.E_MANAGER:add_event(Event({
-						trigger = "after",
-						delay = 0.4,
-						func = function() --"borrowed" from Wheel Of Fortune
-							attention_text({
-								text = localize("k_nope_ex"),
-								scale = 1.3,
-								hold = 1.4,
-								major = G.jokers.cards[i],
-								backdrop_colour = G.C.SECONDARY_SET.Planet,
-								align = (
-									G.STATE == G.STATES.TAROT_PACK
-									or G.STATE == G.STATES.SPECTRAL_PACK
-									or G.STATE == G.STATES.SMODS_BOOSTER_OPENED
-								)
-										and "tm"
-									or "cm",
-								offset = {
-									x = 0,
-									y = (
+				for _, _card in ipairs(G.jokers.cards) do
+					if pseudorandom("rosalina") < G.GAME.probabilities.normal / card.ability.extra.odds then --Code "borrowed" from black hole
+						update_hand_text(
+							{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+							{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+						)
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 0.2,
+							func = function()
+								play_sound("tarot1")
+								_card:juice_up(0.8, 0.5)
+								G.TAROT_INTERRUPT_PULSE = true
+								return true
+							end,
+						}))
+						update_hand_text({ delay = 0 }, { mult = "+", StatusText = true })
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 0.9,
+							func = function()
+								play_sound("tarot1")
+								_card:juice_up(0.8, 0.5)
+								return true
+							end,
+						}))
+						update_hand_text({ delay = 0 }, { chips = "+", StatusText = true })
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 0.9,
+							func = function()
+								play_sound("tarot1")
+								_card:juice_up(0.8, 0.5)
+								G.TAROT_INTERRUPT_PULSE = nil
+								return true
+							end,
+						}))
+						update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "+1" })
+						delay(1.3)
+						for k, v in pairs(G.GAME.hands) do
+							level_up_hand(_card, k, true, to_big(1))
+						end
+						update_hand_text(
+							{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+							{ mult = 0, chips = 0, handname = "", level = "" }
+						)
+					else
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 0.4,
+							func = function() --"borrowed" from Wheel Of Fortune
+								attention_text({
+									text = localize("k_nope_ex"),
+									scale = 1.3,
+									hold = 1.4,
+									major = card,
+									backdrop_colour = G.C.SECONDARY_SET.Planet,
+									align = (
 										G.STATE == G.STATES.TAROT_PACK
 										or G.STATE == G.STATES.SPECTRAL_PACK
 										or G.STATE == G.STATES.SMODS_BOOSTER_OPENED
 									)
-											and -0.2
-										or 0,
-								},
-								silent = true,
-							})
-							G.E_MANAGER:add_event(Event({
-								trigger = "after",
-								delay = 0.06 * G.SETTINGS.GAMESPEED,
-								blockable = false,
-								blocking = false,
-								func = function()
-									play_sound("tarot2", 0.76, 0.4)
-									return true
-								end,
-							}))
-							play_sound("tarot2", 1, 0.4)
-							G.jokers.cards[i]:juice_up(0.3, 0.5)
-							return true
-						end,
-					}))
-				end
-				end
+											and "tm"
+										or "cm",
+									offset = {
+										x = 0,
+										y = (
+											G.STATE == G.STATES.TAROT_PACK
+											or G.STATE == G.STATES.SPECTRAL_PACK
+											or G.STATE == G.STATES.SMODS_BOOSTER_OPENED
+										)
+												and -0.2
+											or 0,
+									},
+									silent = true,
+								})
+								G.E_MANAGER:add_event(Event({
+									trigger = "after",
+									delay = 0.06 * G.SETTINGS.GAMESPEED,
+									blockable = false,
+									blocking = false,
+									func = function()
+										play_sound("tarot2", 0.76, 0.4)
+										return true
+									end,
+								}))
+								play_sound("tarot2", 1, 0.4)
+								_card:juice_up(0.3, 0.5)
+								return true
+							end,
+						}))
+					end
+				end	
 				return nil, true
 			end
 		end,
