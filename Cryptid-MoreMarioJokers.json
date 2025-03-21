@@ -2,7 +2,7 @@
 	"id": "CryptidMoreMarioJokers",
 	"name": "Cryptid-MoreMarioJokers",
 	"display_name": "Cryptid-MoreMarioJokers",
-	"author": ["SMG9000, Denverplays2"],
+	"author": ["SMG9000", "Denverplays2", "MarioFan597"],
 	"description": "a mod that adds more Mario jokers to cryptid",
 	"prefix": "mmj",
 	"main_file": "MoreMarioJokers-cryptid.lua",
