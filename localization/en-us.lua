@@ -109,7 +109,7 @@ return {
             j_mmj_shyguy = { 
                 name = "Shy Guy",
                 text = {
-                    "Played Numbered Cards permanently gain {X:mult,C:white}X(n/#1#){} Mult, ",
+                    "Played Numbered Cards permanently gain {X:mult,C:white}X(nX#1#){} Mult, ",
                     "where {C:attention}n{} is equal to the amount of Jokers you own",
                     
                 }
