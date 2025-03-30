@@ -559,7 +559,7 @@ if mmj_config["More_mario_jokers"] or true then
 		atlas = "marioatlas",
 		cry_credits = {
 			idea = {
-				"Glitchkat10 (kierkat10)"
+				"Glitchkat10"
 			},
 			art = {
 				"SMG9000"
@@ -605,7 +605,7 @@ if mmj_config["More_mario_jokers"] or true then
 		atlas = "marioatlas",
 		cry_credits = {
 			idea = {
-				"Glitchkat10 (kierkat10)"
+				"Glitchkat10"
 			},
 			art = {
 				"candycanearter",
@@ -645,7 +645,7 @@ if mmj_config["More_mario_jokers"] or true then
 		atlas = "marioatlas",
 		cry_credits = {
 			idea = {
-				"Glitchkat10 (kierkat10)"
+				"Glitchkat10"
 			},
 			art = {
 				"Lexi",
