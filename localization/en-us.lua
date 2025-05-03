@@ -2,13 +2,52 @@
 return {
     descriptions = {
         Joker = {
+            j_mmj_beemario = {
+                name = "Bee Mario",
+                text = {
+                    "Retrigger all Jokers",
+                    "Once for each bee joker you have",
+                    "{C:inactive}(Currently #1# retriggers){}",
+                    "{C:inactive}This counts as a Bee Joker"
+                },
+            },
+            j_mmj_beeluigi = {
+                name = "Bee Luigi",
+                text = {
+                    "All Jokers add",
+                    "{C:green} X(#1#+(bee count/#2#)) {} to base {C:attention}listed{}",
+					"{C:green}probabilities{}",
+                    "{C:inactive}(Currently x#3# ){}",
+                    "{C:inactive}This counts as a Bee Joker"
+                },
+            },
+            j_mmj_beepeach = {
+                name = "Bee Peach",
+                text = {
+                    "All Jokers reduce the score required of a {C:attention}Blind{} ",
+                    "by {C:attention}(#2# * beecount)%{} when entering a {C:attention}Blind{} ",
+					"{C:inactive}(multiplicitively){}",
+                    "{C:inactive}(Currently #1#% ){}",
+                    "{C:inactive}This counts as a Bee Joker"
+                },
+            },
+            j_mmj_beerosalina = {
+                name = "Bee Rosalina",
+                text = {
+                    "All Jokers have a{C:green} #1# in #2#{} chance",
+					"to level up all {C:attention}hands (beecount * #3#){} times",
+                    " rounded up at end of round",
+                    "{C:inactive}(Currently #4# times ){}",
+                    "{C:inactive}This counts as a Bee Joker"
+
+                },
+            },
 			j_mmj_daisy = {
                 name = "Daisy",
                 text = {
-					"When hand is played",
-                    "{C:green} #1# in #2#{} chance for every Joker ",
-                    "to create a random {C:attention}Consumable{}",
-					"{C:inactive}Doesn't need room{}",
+					"{C:attention}Retrigger{} every {C:attention}4{} and {C:attention}3{}",
+                    "{C:attention}#1#{} times for every ",
+                    "Joker you have",
                 },
             },
 			j_mmj_luigi = {
@@ -61,34 +100,96 @@ return {
                 name = "King Boo",
                 text = {
                     "When Jokers are triggered{C:green} #1# in #2# {}chance",
-                    "to upgrade {C:attention}Edition{}",
-                    "{C:green} #1# in #3#{} chance to reset to {C:attention}Base{}",
+                    "to upgrade Edition",
+                    "{C:green} #1# in #3#{} chance to reset to Base",
                     "{C:inactive}(ex: Base -> Foil -> Holographic -> Polychrome etc.){}",
                 }
             },
             j_mmj_shyguy = { 
                 name = "Shy Guy",
                 text = {
-                    "{C:attention}Numbered Cards{} permanently gain {X:mult,C:white}X(n/#1#){} Mult when scored,",
+                    "Played Numbered Cards permanently gain {X:mult,C:white}X(n*#1#){} Mult, ",
                     "where {C:attention}n{} is equal to the amount of Jokers you own",
                     
                 }
             },
+            j_mmj_yoshi = {
+				name = "Yoshi",
+				text = {
+					"All Jokers gain",
+					"{C:money}$#1#{} of {C:attention}sell value{} when triggered",
+				},
+			},
+            j_mmj_donkeykong = {
+                name = "Donkey Kong",
+                text = {
+                    "All Jokers give",
+                    "{C:attention}#1#{} hand size",
+                }
+            },
+            j_mmj_toad = {
+                name = "Toad",
+                text = {
+                    "When entering a {C:attention}Blind Double{} half",
+                    "of {C:attention}Mutatable{} Jokers until",
+                    "end of round",
+                }
+            }
+        },
+        Back = {
+            b_mmj_n64deck = {
+                name = "N64",
+                text = {
+                    "Start with a random {C:attention}Mario{} Joker",
+                    "at start of run",
+                    
+                },
+            },
+        },
+        Spectral={
+            c_mmj_beemushroom = {
+                name = "Bee Mushroom",
+                text = {
+                    "Gives {C:attention}1{} Selected viable Mario joker the {C:attention}Bee Powerup{}"
+                }
+            },
+        },
+        Code={
+            c_mmj_miyamoto = {
+                name = "Miyamoto",
+                text = {
+                    "Destroys the selected {C:cry_candy}legendary{} Joker",
+                    "and creates a random {C:attention}Mario{} Joker",
+                }
+            }
         },
         Other = {
             card_extra_xmult = {
                 text = {
                     "{X:mult,C:white}x#1#{} extra mult"
-                }
+                },
             },
         },
-		misc = {
-			dictionary = {
-				mmj_daisy_give = "Take This Consumable",
-				mmj_config_features = "Features",
-				mmj_config_nostalgic_luigi = "Nostalgic Luigi",
-				mmj_config_more_mario_jokers = "More Mario Jokers",
-			}
-		},
-    }
+        Sleeve = {
+            sleeve_mmj_n64sleeve = {
+                name = "N64 sleeve",
+                text = { "start with a random mario joker and +5 joker slots", 
+                },
+            },
+        },
+		
+    },
+    misc = {
+        labels = {
+            k_mmj_mariojoker = "Super Bro's",
+        },
+        dictionary = {
+            k_mmj_mariojoker = "Mario",
+            mmj_daisy_give = "Take This Consumable",
+            mmj_config_features = "Features",
+            mmj_config_nostalgic_luigi = "Nostalgic Luigi",
+            mmj_config_more_mario_jokers = "More Mario Jokers",
+            mmj_beepeach = "-#1#% Blind Size"
+        }
+    },
 }
