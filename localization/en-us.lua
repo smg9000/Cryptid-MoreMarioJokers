@@ -45,10 +45,9 @@ return {
 			j_mmj_daisy = {
                 name = "Daisy",
                 text = {
-					"When hand is played",
-                    "{C:green} #1# in #2#{} chance for every Joker ",
-                    "to create a random {C:attention}Consumable{}",
-					"{C:inactive}Doesn't need room{}",
+					"{C:attention}Retrigger{} every {C:attention}4{} and {C:attention}3{}",
+                    "{C:attention}#1#{} times for every ",
+                    "Joker you have",
                 },
             },
 			j_mmj_luigi = {
@@ -109,7 +108,7 @@ return {
             j_mmj_shyguy = { 
                 name = "Shy Guy",
                 text = {
-                    "Played Numbered Cards permanently gain {X:mult,C:white}X(nX#1#){} Mult, ",
+                    "Played Numbered Cards permanently gain {X:mult,C:white}X(n*#1#){} Mult, ",
                     "where {C:attention}n{} is equal to the amount of Jokers you own",
                     
                 }
@@ -122,10 +121,18 @@ return {
 				},
 			},
             j_mmj_donkeykong = {
-                name = " Donkey Kong",
+                name = "Donkey Kong",
                 text = {
                     "All Jokers give",
                     "{C:attention}#1#{} hand size",
+                }
+            },
+            j_mmj_toad = {
+                name = "Toad",
+                text = {
+                    "When entering a {C:attention}Blind Double{} half",
+                    "of {C:attention}Mutatable{} Jokers until",
+                    "end of round",
                 }
             }
         },
