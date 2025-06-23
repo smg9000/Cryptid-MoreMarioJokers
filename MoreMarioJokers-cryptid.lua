@@ -28,6 +28,66 @@ SMODS.Rarity{
 	badge_colour = gradient,
 }
 
+function mult_dollars(multiplier, instant)
+    local function _mod2(multiplier)
+        local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
+        multiplier = to_big(multiplier) or to_big(0)
+        local text = 'x'..localize('$')
+        local col = G.C.MONEY
+        if to_big(multiplier) < to_big(0) then
+            text = 'x-'..localize('$')
+            col = G.C.RED              
+        else
+          inc_career_stat('c_dollars_earned', multiplier)
+        end
+        --Ease from current chips to the new number of chips
+        G.GAME.dollars = to_big(G.GAME.dollars) * to_big(multiplier)
+        check_and_set_high_score('most_money', G.GAME.dollars)
+        check_for_unlock({type = 'money'})
+        dollar_UI.config.object:update()
+        G.HUD:recalculate()
+        --Popup text next to the chips in UI showing number of chips gained/lost
+        attention_text({
+          text = text..tostring(math.abs(to_big(multiplier))),
+          scale = 0.8, 
+          hold = 0.7,
+          cover = dollar_UI.parent,
+          cover_colour = col,
+          align = 'cm',
+          })
+        --Play a chip sound
+        play_sound('coin1')
+    end
+    if instant then
+        _mod2(multiplier)
+    else
+        G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            _mod2(multiplier)
+            return true
+        end
+        }))
+    end
+end
+
+if not IncantationAddons then
+	IncantationAddons = {
+		Stacking = {},
+		Dividing = {},
+		BulkUse = {},
+		StackingIndividual = {},
+		DividingIndividual = {},
+		BulkUseIndividual = {},
+		MassUse = {},
+		MassUseIndividual = {}
+	}
+end
+
+
+
+
+
 
 if mmj_config["Nostalgic_luigi"] then
 	SMODS.Joker {
@@ -733,7 +793,342 @@ if mmj_config["More_mario_jokers"] or true then
 		},
 	}
 
+	local lumaType = SMODS.ConsumableType {
+		key = "Luma",
+		primary_colour = HEX("6A5700"),
+		secondary_colour = HEX("02BF0E"),
+		collection_rows = {4,4}, 
+		loc_txt = {
+			collection = "Luma Cards",
+			name = "Luma",
+			label = "Luma",
+			undiscovered = {
+				name = 'Undiscovered Luma',
+				text = { 'Find this Luma in a run to discover it' },
+			},
+		},
+		shop_rate = 1,
+		default = 'c_mmj_yellow_luma',
+		can_stack = true,
+		can_divide = true,
+	}
+	
+	SMODS.MMJ_Lumas = SMODS.Consumable:extend {
+		set = "Luma",
+		can_use = function(self, card) 
+			return true
+		end,
+	}
+	
+	SMODS.UndiscoveredSprite {
+		key = 'Luma',
+		atlas = 'luma',
+		pos = {x = 0, y = 2},
+	}
+		
+	SMODS.MMJ_Lumas({
+		key = "mmj_yellow_luma",
+		pos = {x=0,y=0},
+		loc_txt = {
+			name = 'Yellow Luma',
+			text = {
+				"#1#"
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = {amount = 1 }},
+		loc_vars = function(self, info_queue, center)
+			local leastplayed = "High Card"
+			local timesplayed = 1e100
+			for _, v in ipairs(G.handlist) do
+				if ((G.GAME.hands[v].visible == true) and (G.GAME.hands[v].played > 0)) and ( G.GAME.hands[v].played <= timesplayed) then --(Talisman and to_big(lowest_level) or lowest_level) then
+					leastplayed = v
+					timesplayed = G.GAME.hands[v].played
+				end
+			end
+			if timesplayed == 1e100 then
+				timesplayed = 0
+			end
+			return { vars = { leastplayed, } }
+		end,
+		use = function(self, card, area, copier)
+			local leastplayed = "High Card"
+			local timesplayed = 1e100
+			for _, v in ipairs(G.handlist) do
+				if ((G.GAME.hands[v].visible == true) and (G.GAME.hands[v].played > 0)) and ( G.GAME.hands[v].played <= timesplayed) then --(Talisman and to_big(lowest_level) or lowest_level) then
+					leastplayed = v
+					timesplayed = G.GAME.hands[v].played
+				end
+			end
+			if timesplayed == 1e100 then
+				timesplayed = 0
+			end
+			mult_dollars(math.max(timesplayed, 1))
 
+		end,
+		bulk_use = function(self, card, area, copier, number)
+			local leastplayed = "High Card"
+			local timesplayed = 1e100
+			for _, v in ipairs(G.handlist) do
+				if ((G.GAME.hands[v].visible == true) and (G.GAME.hands[v].played >= 1)) and ( G.GAME.hands[v].played <= timesplayed) then --(Talisman and to_big(lowest_level) or lowest_level) then
+					leastplayed = v
+					timesplayed = G.GAME.hands[v].played
+				end
+			end
+			if timesplayed == 1e100 then
+				timesplayed = 0
+			end
+			mult_dollars(math.max(to_big(timesplayed)^to_big(number)	, 1))
+		end,
+	})
+
+	SMODS.MMJ_Lumas({
+		key = "mmj_red_luma",
+		pos = {x=0,y=0},
+		loc_txt = {
+			name = 'Red Luma',
+			text = {
+				"#1#"
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = {xmult = 5 }},
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.xmult, } }
+		end,
+		use = function(self, card, area, copier)
+			for _, v in ipairs(G.handlist) do
+				G.GAME.hands[v].mult = G.GAME.hands[v].mult * card.ability.extra.xmult
+			end
+
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1 }, {mult = "x" .. number_format(card.ability.extra.xmult), StatusText = true})
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+		bulk_use = function(self, card, area, copier, number)
+			for _, v in ipairs(G.handlist) do
+				G.GAME.hands[v].mult = G.GAME.hands[v].mult * (to_big(card.ability.extra.xmult)^number)
+			end
+
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({delay = 0}, {mult = "x" .. tostring(to_big(card.ability.extra.xmult)^number), StatusText = true})
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+	})
+
+	SMODS.MMJ_Lumas({
+		key = "mmj_blue_luma",
+		pos = {x=0,y=0},
+		loc_txt = {
+			name = 'Blue Luma',
+			text = {
+				"#1#"
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = {xchips = 5 }},
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.xchips, } }
+		end,
+		use = function(self, card, area, copier)
+			for _, v in ipairs(G.handlist) do
+				G.GAME.hands[v].chips = G.GAME.hands[v].chips * card.ability.extra.xchips
+			end
+
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1 }, {chips = "x" .. number_format(card.ability.extra.xchips), StatusText = true})
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+		bulk_use = function(self, card, area, copier, number)
+			for _, v in ipairs(G.handlist) do
+				G.GAME.hands[v].chips = G.GAME.hands[v].chips * (to_big(card.ability.extra.xchips)^number)
+			end
+
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({delay = 0}, {chips = "x" .. tostring(to_big(card.ability.extra.xchips)^number), StatusText = true})
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+	})
+
+	SMODS.MMJ_Lumas({
+		key = "mmj_apricot_luma",
+		pos = {x=0,y=0},
+		loc_txt = {
+			name = 'Apricot Luma',
+			text = {
+				"#1#"
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = {xmult_and_chips = 1.5 }},
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.xmult_and_chips, } }
+		end,
+		use = function(self, card, area, copier)
+			local oldhandchips
+			local oldhandmult
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1}, {mult = "Swap", chips = "Swap", StatusText = true})
+			for _, v in ipairs(G.handlist) do
+				oldhandchips = G.GAME.hands[v].chips
+				oldhandmult = G.GAME.hands[v].mult
+				G.GAME.hands[v].chips = oldhandmult
+				G.GAME.hands[v].mult = oldhandchips
+			end
+			for _, v in ipairs(G.handlist) do
+				G.GAME.hands[v].chips = G.GAME.hands[v].chips * card.ability.extra.xmult_and_chips
+				G.GAME.hands[v].mult = G.GAME.hands[v].mult * card.ability.extra.xmult_and_chips
+			end
+
+			
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1 }, {mult = "x" .. number_format(card.ability.extra.xmult_and_chips), StatusText = true})
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1 }, {chips = "x" .. number_format(card.ability.extra.xmult_and_chips), StatusText = true})
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+		bulk_use = function(self, card, area, copier, number)
+			for _, v in ipairs(G.handlist) do
+				G.GAME.hands[v].chips = G.GAME.hands[v].chips * (to_big(card.ability.extra.xmult_and_chips)^number)
+				G.GAME.hands[v].mult = G.GAME.hands[v].mult * (to_big(card.ability.extra.xmult_and_chips)^number)
+			end
+
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1 }, {mult = "x" .. tostring(to_big(card.ability.extra.xmult_and_chips)^number), StatusText = true})
+			update_hand_text({sound = "tarot1", volume = 0.7, pitch = 1, delay = 1 }, {chips = "x" .. tostring(to_big(card.ability.extra.xmult_and_chips)	^number), StatusText = true})
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+	})
+
+	SMODS.MMJ_Lumas({
+		key = "mmj_black_luma",
+		pos = {x=0,y=0},
+		loc_txt = {
+			name = 'Black Luma',
+			text = {
+				"#1#",
+				"#2#",
+				"#3#"
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = {level_up = 1, times_level_up_per = 1, times_total = 1 }},
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.level_up, center.ability.extra.times_level_up_per, center.ability.extra.times_total, } }
+		end,
+		update = function(self, card, dt)
+			if G.GAME and G.GAME.consumeable_usage_total then 
+				card.ability.extra.times_total = card.ability.extra.level_up + (card.ability.extra.times_level_up_per * G.GAME.consumeable_usage_total.all)
+			end
+		end,
+		use = function(self, card, area, copier)
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({ delay = 0 }, { mult = "+", StatusText = true })
+			update_hand_text({ delay = 0 }, { chips = "+", StatusText = true })
+			update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "+"..tostring(to_big(card.ability.extra.times_total)) })
+			delay(1.3)
+			for k, v in pairs(G.GAME.hands) do
+				level_up_hand(card, k, true, to_big(card.ability.extra.times_total))
+			end
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+		bulk_use = function(self, card, area, copier, number)
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+			)
+			update_hand_text({ delay = 0 }, { mult = "+", StatusText = true })
+			update_hand_text({ delay = 0 }, { chips = "+", StatusText = true })
+			update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "+"..tostring(to_big(card.ability.extra.times_total)*number) })
+			delay(1.3)
+			for k, v in pairs(G.GAME.hands) do
+				level_up_hand(card, k, true, to_big(card.ability.extra.times_total)*number)
+			end
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+				{ mult = 0, chips = 0, handname = "", level = "" }
+			)
+		end,
+	})
+
+	SMODS.Voucher({
+		key = "planet_hopp",
+		atlas = "luma",
+		pos = {x = 0, y = 0},
+		cost = 10,
+		unlocked = true,
+		discovered = false,
+		available = true,
+		config = {extra = {booster_gain = 1}},
+		redeem = function(self)
+		end,
+		loc_vars = function(self, info_queue, card)
+			--if card and Ortalab.config.artist_credits then info_queue[#info_queue+1] = {generate_ui = ortalab_artist_tooltip, key = 'flare'} end
+			return {vars = {	}}
+		end,
+	})
+	SMODS.Voucher({
+		key = "planet_bounce",
+		atlas = "luma",
+		pos = {x = 0, y = 0},
+		cost = 10,
+		unlocked = true,
+		discovered = false,
+		available = true,
+		requires = {"v_mmj_planet_hopp"},
+		config = {extra = {booster_gain = 1}},
+		redeem = function(self)
+		end,
+		loc_vars = function(self, info_queue, card)
+			--if card and Ortalab.config.artist_credits then info_queue[#info_queue+1] = {generate_ui = ortalab_artist_tooltip, key = 'flare'} end
+			return {vars = {	}}
+		end,
+	})
 
 	if next(SMODS.find_mod('Beelatro')) then
 		SMODS.Joker {
@@ -1112,7 +1507,7 @@ if mmj_config["More_mario_jokers"] or true then
 
 	local n64deckjokers = {
 		"j_cry_wario",
-		"j_cry_waluigi",
+		"j_cry_waluigi",	
 		"j_mmj_mario",
 		"j_mmj_peach",
 		"j_mmj_rosalina",
@@ -1229,6 +1624,24 @@ SMODS.Consumable {
 		}
 	end
 
+
+	
+	table.insert(IncantationAddons.Stacking, "Luma")
+	table.insert(IncantationAddons.Dividing, "Luma")
+	table.insert(IncantationAddons.BulkUse, "Luma")
+	table.insert(IncantationAddons.StackingIndividual, "Luma")
+	table.insert(IncantationAddons.DividingIndividual, "Luma")
+	table.insert(IncantationAddons.BulkUseIndividual, "Luma")
+	table.insert(IncantationAddons.MassUse, "Luma")
+	table.insert(IncantationAddons.MassUseIndividual, "Luma")
+	
+
+
+
+
+
+
+
 else
 end 
 
@@ -1239,6 +1652,13 @@ SMODS.Atlas({
 	key = "marioatlas",
 	atlas_table = "ASSET_ATLAS",
 	path = "marioatlas.png",
+	px = 71,
+	py = 95
+})
+SMODS.Atlas({
+	key = "luma",
+	atlas_table = "ASSET_ATLAS",
+	path = "luma.png",
 	px = 71,
 	py = 95
 })

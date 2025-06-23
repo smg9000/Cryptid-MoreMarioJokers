@@ -57,3 +57,59 @@ pattern = '''if self.ability.x_mult <= 1 then return 0 end'''
 position = 'at'
 payload = '''if (self.ability.x_mult <= 1 and self.ability.perma_bonus == (0 or nil)) then return 0 end'''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''local card = nil'''
+position = 'after'
+payload = '''
+if self.ability.name:find('Celestial') and G.GAME.used_vouchers.v_telescope and (i ~= 1) then
+    local lumarng = pseudorandom('Luma')
+    if G.GAME.used_vouchers.v_mmj_planet_hopp and (rng <= 0.2   ) then
+        card = create_card("Luma", G.pack_cards, nil, nil, true, true, nil, "lma")
+        card:start_materialize({G.C.WHITE, G.C.WHITE}, nil, 1.5*G.SETTINGS.GAMESPEED)
+        card.T.x = self.T.x + 0
+        card.T.y = self.T.y
+        pack_cards[i] = card or {}
+        goto continue2
+    end
+elseif self.ability.name:find('Celestial') then
+    local rng = pseudorandom('Luma')
+    if G.GAME.used_vouchers.v_mmj_planet_hopp and (rng <= 0.2) then
+        card = create_card("Luma", G.pack_cards, nil, nil, true, true, nil, "lma")
+        card:start_materialize({G.C.WHITE, G.C.WHITE}, nil, 1.5*G.SETTINGS.GAMESPEED)
+        card.T.x = self.T.x + 0
+        card.T.y = self.T.y
+        pack_cards[i] = card or {}
+        goto continue2
+    end
+end'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''                   card.T.x = self.T.x
+                    card.T.y = self.T.y
+                    card:start_materialize({G.C.WHITE, G.C.WHITE}, nil, 1.5*G.SETTINGS.GAMESPEED)
+                    pack_cards[i] = card'''
+position = 'after'
+payload = '''
+::continue2::'''
+match_indent = true
+
+
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''for i = 1, _size do'''
+position = 'before'
+payload = '''
+if G.GAME.used_vouchers.v_mmj_planet_bounce then
+    SMODS.add_card({set = "Luma",area = G.consumeables, skip_materialize = true})
+end
+    ''' 
+match_indent = true
