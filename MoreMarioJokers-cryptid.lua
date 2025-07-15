@@ -807,7 +807,7 @@ if mmj_config["More_mario_jokers"] or true then
 				text = { 'Find this Luma in a run to discover it' },
 			},
 		},
-		shop_rate = 1,
+		shop_rate = 0,
 		default = 'c_mmj_yellow_luma',
 		can_stack = true,
 		can_divide = true,
@@ -885,13 +885,8 @@ if mmj_config["More_mario_jokers"] or true then
 
 	SMODS.MMJ_Lumas({
 		key = "mmj_red_luma",
-		pos = {x=0,y=0},
-		loc_txt = {
-			name = 'Red Luma',
-			text = {
-				"#1#"
-			},
-		},
+		pos = {x=1,y=0},
+		
 		cost = 4,
 		atlas = "luma",
 		config = {extra = {xmult = 5 }},
@@ -932,13 +927,7 @@ if mmj_config["More_mario_jokers"] or true then
 
 	SMODS.MMJ_Lumas({
 		key = "mmj_blue_luma",
-		pos = {x=0,y=0},
-		loc_txt = {
-			name = 'Blue Luma',
-			text = {
-				"#1#"
-			},
-		},
+		pos = {x=2,y=0},
 		cost = 4,
 		atlas = "luma",
 		config = {extra = {xchips = 5 }},
@@ -979,13 +968,7 @@ if mmj_config["More_mario_jokers"] or true then
 
 	SMODS.MMJ_Lumas({
 		key = "mmj_apricot_luma",
-		pos = {x=0,y=0},
-		loc_txt = {
-			name = 'Apricot Luma',
-			text = {
-				"#1#"
-			},
-		},
+		pos = {x=1,y=0},
 		cost = 4,
 		atlas = "luma",
 		config = {extra = {xmult_and_chips = 1.5 }},
@@ -1040,7 +1023,7 @@ if mmj_config["More_mario_jokers"] or true then
 
 	SMODS.MMJ_Lumas({
 		key = "mmj_black_luma",
-		pos = {x=0,y=0},
+		pos = {x=4,y=0},
 		loc_txt = {
 			name = 'Black Luma',
 			text = {
@@ -1095,6 +1078,199 @@ if mmj_config["More_mario_jokers"] or true then
 			)
 		end,
 	})
+
+
+	SMODS.MMJ_Lumas({
+		key = "mmj_pink_luma",
+		pos = {x=5,y=0},
+		loc_txt = {
+			name = 'Pink Luma',
+			text = {
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = {condition = false, divide = 2, pow = 2}},
+		loc_vars = function(self, info_queue, center)
+			return { vars = { center.ability.extra.divide, center.ability.extra.pow, } }
+		end,
+		use = function(self, card, area, copier)
+			if card.ability.extra.condition == false then
+				update_hand_text(
+					{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+					{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+				)
+				update_hand_text({ delay = 0 }, { mult = "-", StatusText = true })
+				update_hand_text({ delay = 0 }, { chips = "-", StatusText = true })
+				update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "/"..tostring(to_big(card.ability.extra.divide)) })
+				delay(1.3)
+				for k, v in pairs(G.GAME.hands) do
+					local divide = -(to_big(G.GAME.hands[k].level) / 2)
+					level_up_hand(card, k, true, to_big(divide))
+				end
+				update_hand_text(
+					{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+					{ mult = 0, chips = 0, handname = "", level = "" }
+				)
+				card.ability.extra.condition = true
+			elseif card.ability.extra.condition == true then
+				update_hand_text(
+					{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+					{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+				)
+				update_hand_text({ delay = 0 }, { mult = "+", StatusText = true })
+				update_hand_text({ delay = 0 }, { chips = "+", StatusText = true })
+				update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "^"..tostring(to_big(card.ability.extra.pow)) })
+				delay(1.3)
+				for k, v in pairs(G.GAME.hands) do
+					local power = (to_big(G.GAME.hands[k].level) ^ 2) - G.GAME.hands[k].level	
+					level_up_hand(card, k, true, to_big(power))
+				end
+				update_hand_text(
+					{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+					{ mult = 0, chips = 0, handname = "", level = "" }
+				)
+				card.ability.extra.condition = false
+			end
+		end,
+		bulk_use = function(self, card, area, copier, number)
+			for i=1, number do
+				if card.ability.extra.condition == false then
+					update_hand_text(
+						{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+						{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+					)
+					update_hand_text({ delay = 0 }, { mult = "-", StatusText = true })
+					update_hand_text({ delay = 0 }, { chips = "-", StatusText = true })
+					update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "/"..tostring(to_big(card.ability.extra.divide)) })
+					delay(1.3)
+					for k, v in pairs(G.GAME.hands) do
+						local divide = -(to_big(G.GAME.hands[k].level) / 2)
+						level_up_hand(card, k, true, to_big(divide))
+					end
+					update_hand_text(
+						{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+						{ mult = 0, chips = 0, handname = "", level = "" }
+					)
+					card.ability.extra.condition = true
+				elseif card.ability.extra.condition == true then
+					update_hand_text(
+						{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+						{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }
+					)
+					update_hand_text({ delay = 0 }, { mult = "+", StatusText = true })
+					update_hand_text({ delay = 0 }, { chips = "+", StatusText = true })
+					update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = "^"..tostring(to_big(card.ability.extra.pow)) })
+					delay(1.3)
+					for k, v in pairs(G.GAME.hands) do
+						local power = (to_big(G.GAME.hands[k].level) ^ 2) - G.GAME.hands[k].level
+						level_up_hand(card, k, true, to_big(power))
+					end
+					update_hand_text(
+						{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+						{ mult = 0, chips = 0, handname = "", level = "" }
+					)
+					card.ability.extra.condition = false
+				end
+			end
+		end,
+	})
+
+	SMODS.MMJ_Lumas({
+		key = "mmj_orange_luma",
+		pos = {x=0,y=0},
+		loc_txt = {
+			name = 'Orange Luma',
+			text = {
+			},
+		},
+		cost = 4,
+		atlas = "luma",
+		config = {extra = 5},
+		loc_vars = function(self, info_queue, center)
+			return { vars = { } }
+		end,
+		use = function(self, card, area, copier)
+			local used_consumable = copier or card
+			delay(0.4)	
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("mmj_asc_luma"), chips = "...", mult = "...", level = "" }
+			)
+			delay(1.0)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					play_sound("tarot1")
+					ease_colour(G.C.UI_CHIPS, copy_table(G.C.GOLD), 0.1)
+					ease_colour(G.C.UI_MULT, copy_table(G.C.GOLD), 0.1)
+					Cryptid.pulse_flame(0.01, G.GAME.sunnumber/5 or 1)
+					used_consumable:juice_up(0.8, 0.5)
+					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						blockable = false,
+						blocking = false,
+						delay = 1.2,
+						func = function()
+							ease_colour(G.C.UI_CHIPS, G.C.BLUE, 1)
+							ease_colour(G.C.UI_MULT, G.C.RED, 1)
+							return true
+						end,
+					}))
+					return true
+				end,
+			}))
+		update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { mult = "X"..tostring(to_big(card.ability.extra)),  chips = "X"..tostring(to_big(card.ability.extra)) })
+		delay(2.6)
+		G.GAME.sunnumber = G.GAME.sunnumber ~= nil and G.GAME.sunnumber * card.ability.extra or card.ability.extra
+		update_hand_text(
+			{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+			{ mult = 0, chips = 0, handname = "", level = "" }
+		)
+		end,
+		bulk_use = function(self, card, area, copier, number)
+		local used_consumable = copier or card
+			delay(0.4)	
+			update_hand_text(
+				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
+				{ handname = localize("mmj_asc_luma"), chips = "...", mult = "...", level = "" }
+			)
+			delay(1.0)
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.2,
+				func = function()
+					play_sound("tarot1")
+					ease_colour(G.C.UI_CHIPS, copy_table(G.C.GOLD), 0.1)
+					ease_colour(G.C.UI_MULT, copy_table(G.C.GOLD), 0.1)
+					Cryptid.pulse_flame(0.01, G.GAME.sunnumber/5 or 1)
+					used_consumable:juice_up(0.8, 0.5)
+					G.E_MANAGER:add_event(Event({
+						trigger = "after",
+						blockable = false,
+						blocking = false,
+						delay = 1.2,
+						func = function()
+							ease_colour(G.C.UI_CHIPS, G.C.BLUE, 1)
+							ease_colour(G.C.UI_MULT, G.C.RED, 1)
+							return true
+						end,
+					}))
+					return true
+				end,
+			}))
+		update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { mult = "X"..tostring(to_big(card.ability.extra)^ number),  chips = "X"..tostring(to_big(card.ability.extra)^ number) })
+		delay(2.6)
+		G.GAME.sunnumber = G.GAME.sunnumber ~= nil and G.GAME.sunnumber * (card.ability.extra ^ number) or card.ability.extra ^ number
+		update_hand_text(
+			{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
+			{ mult = 0, chips = 0, handname = "", level = "" }
+		)
+		end,
+	})
+
+	
 
 	SMODS.Voucher({
 		key = "planet_hopp",
@@ -1331,7 +1507,7 @@ if mmj_config["More_mario_jokers"] or true then
 			key = "beerosalina",
 			pos = { x = 2, y = 3 },
 			soul_pos = { x = 3, y = 3 },
-			config = { extra = { bee = true, multiplier = 0.5, amount = 0 } },
+			config = { extra = { odds = 5, bee = true, multiplier = 0.5, amount = 0 } },
 			loc_vars = function(self, info_queue, center)
 			return { vars = { "" .. (G.GAME and G.GAME.probabilities.normal or 1), center.ability.extra.odds, center.ability.extra.multiplier, center.ability.extra.amount } }
 			end,
@@ -1342,7 +1518,7 @@ if mmj_config["More_mario_jokers"] or true then
 			calculate = function(self, card, context)
 				if context.end_of_round and not context.individual and not context.repetition then
 					for _, _card in ipairs(G.jokers.cards) do
-						if pseudorandom("rosalina") < G.GAME.probabilities.normal / 5 then --Code "borrowed" from black hole
+						if pseudorandom("rosalina") < G.GAME.probabilities.normal / card.ability.extra.odds then --Code "borrowed" from black hole
 							update_hand_text(
 								{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
 								{ handname = localize("k_all_hands"), chips = "...", mult = "...", level = "" }

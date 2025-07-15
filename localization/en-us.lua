@@ -177,6 +177,48 @@ return {
                 },
             },
         },
+        Voucher={
+            v_mmj_planet_hopp ={
+                name="Planet Hopp",
+                text={
+                    "Allows for {C:attention}Luma{} cards ",
+                    "to be found in {C:Planet}Celestial{} Packs",
+                },
+            },
+            v_mmj_planet_bounce={
+                name="Planet Bounce",
+                text={
+                    "When you open a {C:Planet}Celestial{} Pack",
+                    "create a random {C:attention}Luma{} card",
+                    "{C:inactive}Doesn't need room{}"
+                },
+            },
+        },
+        Luma = {
+            c_mmj_red_luma = {
+                name = 'Red Luma',
+                text = {
+                    "Multiplies the Mult of", 
+                    "all hands by {X:red,C:white}X#1#{}"
+                },
+            },
+            c_mmj_blue_luma = {
+                name = 'Blue Luma',
+                text = {
+                    "Multiplies the Chips of", 
+                    "all hands by {X:blue,C:white}X#1#{}"
+                },
+            },
+            c_mmj_apricot_luma = {
+                name = 'Apricot Luma',
+                text = {
+                    "{C:attention}Swaps{} the Chips and Mult of all hands",
+                    "then Multiply them by {X:dark_edition,C:white}X#1#{}"
+                },
+            },
+
+
+        },
 		
     },
     misc = {
@@ -189,7 +231,8 @@ return {
             mmj_config_features = "Features",
             mmj_config_nostalgic_luigi = "Nostalgic Luigi",
             mmj_config_more_mario_jokers = "More Mario Jokers",
-            mmj_beepeach = "-#1#% Blind Size"
+            mmj_beepeach = "-#1#% Blind Size",
+            mmj_asc_luma = "Ascension Power"
         }
     },
 }
