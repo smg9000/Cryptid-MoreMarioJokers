@@ -1024,14 +1024,6 @@ if mmj_config["More_mario_jokers"] or true then
 	SMODS.MMJ_Lumas({
 		key = "mmj_black_luma",
 		pos = {x=4,y=0},
-		loc_txt = {
-			name = 'Black Luma',
-			text = {
-				"#1#",
-				"#2#",
-				"#3#"
-			},
-		},
 		cost = 4,
 		atlas = "luma",
 		config = {extra = {level_up = 1, times_level_up_per = 1, times_total = 1 }},
@@ -1179,19 +1171,25 @@ if mmj_config["More_mario_jokers"] or true then
 	SMODS.MMJ_Lumas({
 		key = "mmj_orange_luma",
 		pos = {x=0,y=0},
-		loc_txt = {
-			name = 'Orange Luma',
-			text = {
-			},
-		},
 		cost = 4,
 		atlas = "luma",
-		config = {extra = 5},
+		config = {extra = 1.5},
 		loc_vars = function(self, info_queue, center)
-			return { vars = { } }
+			if SMODS.Mods["Entropy"] then
+				return { vars = {
+					center.ability.extra,
+					((G.GAME.sunnumber and G.GAME.sunnumber or 0) + ((G.jokers and Entropy.HasJoker("j_entr_helios") and 1.75) or 1.25))..(G.jokers and Entropy.HasJoker("j_entr_helios") and "^" or ""),
+					} }
+			else
+				return { vars = {
+					center.ability.extra,
+					(G.GAME.sunnumber and G.GAME.sunnumber or 0) + 1.25,
+				}}
+			end
 		end,
 		use = function(self, card, area, copier)
 			local used_consumable = copier or card
+			local sunlevel = (G.GAME.sunlevel and G.GAME.sunlevel or 0) + 1
 			delay(0.4)	
 			update_hand_text(
 				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
@@ -1205,7 +1203,7 @@ if mmj_config["More_mario_jokers"] or true then
 					play_sound("tarot1")
 					ease_colour(G.C.UI_CHIPS, copy_table(G.C.GOLD), 0.1)
 					ease_colour(G.C.UI_MULT, copy_table(G.C.GOLD), 0.1)
-					Cryptid.pulse_flame(0.01, G.GAME.sunnumber/5 or 1)
+					Cryptid.pulse_flame(0.01, sunlevel 	)
 					used_consumable:juice_up(0.8, 0.5)
 					G.E_MANAGER:add_event(Event({
 						trigger = "after",
@@ -1231,6 +1229,7 @@ if mmj_config["More_mario_jokers"] or true then
 		end,
 		bulk_use = function(self, card, area, copier, number)
 		local used_consumable = copier or card
+			local sunlevel = (G.GAME.sunlevel and G.GAME.sunlevel or 0) + 1
 			delay(0.4)	
 			update_hand_text(
 				{ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 },
@@ -1244,7 +1243,7 @@ if mmj_config["More_mario_jokers"] or true then
 					play_sound("tarot1")
 					ease_colour(G.C.UI_CHIPS, copy_table(G.C.GOLD), 0.1)
 					ease_colour(G.C.UI_MULT, copy_table(G.C.GOLD), 0.1)
-					Cryptid.pulse_flame(0.01, G.GAME.sunnumber/5 or 1)
+					Cryptid.pulse_flame(0.01, sunlevel)
 					used_consumable:juice_up(0.8, 0.5)
 					G.E_MANAGER:add_event(Event({
 						trigger = "after",

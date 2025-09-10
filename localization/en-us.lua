@@ -216,7 +216,23 @@ return {
                     "then Multiply them by {X:dark_edition,C:white}X#1#{}"
                 },
             },
-
+            c_mmj_black_luma = {
+                name = 'Black Luma',
+                text = {
+                    "Levels up all hands by {C:attention}#1#{} ",
+                    "add {C:attention}#2#{} for every consumable",
+                    "used this run",
+                    "{C:inactive}Currently #3#{}"
+                },
+            },
+            c_mmj_orange_luma = {
+                name = 'Orange Luma',
+                text = {
+                    "Multiply power of",
+					"{C:attention}Ascended{} hands by {X:gold,C:white}X#1#{}",
+					"{C:inactive}(Currently {X:gold,C:white}X(#2#^asc){C:inactive})",
+                },
+            },        
 
         },
 		
