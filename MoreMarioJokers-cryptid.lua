@@ -1178,12 +1178,12 @@ if mmj_config["More_mario_jokers"] or true then
 			if SMODS.Mods["Entropy"] then
 				return { vars = {
 					center.ability.extra,
-					((G.GAME.sunnumber and G.GAME.sunnumber or 0) + ((G.jokers and Entropy.HasJoker("j_entr_helios") and 1.75) or 1.25))..(G.jokers and Entropy.HasJoker("j_entr_helios") and "^" or ""),
+					((G.GAME.sunnumber.not_modest and G.GAME.sunnumber.not_modest or 0) + ((G.jokers and Entropy.HasJoker("j_entr_helios") and 1.75) or 1.25))..(G.jokers and Entropy.HasJoker("j_entr_helios") and "^" or ""),
 					} }
 			else
 				return { vars = {
 					center.ability.extra,
-					(G.GAME.sunnumber and G.GAME.sunnumber or 0) + 1.25,
+					(G.GAME.sunnumber.not_modest and G.GAME.sunnumber.not_modest or 0) + 1.25,
 				}}
 			end
 		end,
@@ -1221,7 +1221,7 @@ if mmj_config["More_mario_jokers"] or true then
 			}))
 		update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { mult = "X"..tostring(to_big(card.ability.extra)),  chips = "X"..tostring(to_big(card.ability.extra)) })
 		delay(2.6)
-		G.GAME.sunnumber = G.GAME.sunnumber ~= nil and G.GAME.sunnumber * card.ability.extra or card.ability.extra
+		G.GAME.sunnumber.not_modest = G.GAME.sunnumber.not_modest ~= nil and G.GAME.sunnumber.not_modest * card.ability.extra or card.ability.extra
 		update_hand_text(
 			{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
 			{ mult = 0, chips = 0, handname = "", level = "" }
@@ -1261,7 +1261,7 @@ if mmj_config["More_mario_jokers"] or true then
 			}))
 		update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { mult = "X"..tostring(to_big(card.ability.extra)^ number),  chips = "X"..tostring(to_big(card.ability.extra)^ number) })
 		delay(2.6)
-		G.GAME.sunnumber = G.GAME.sunnumber ~= nil and G.GAME.sunnumber * (card.ability.extra ^ number) or card.ability.extra ^ number
+		G.GAME.sunnumber.not_modest = G.GAME.sunnumber.not_modest ~= nil and G.GAME.sunnumber.not_modest	 * (card.ability.extra ^ number) or card.ability.extra ^ number
 		update_hand_text(
 			{ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 },
 			{ mult = 0, chips = 0, handname = "", level = "" }
